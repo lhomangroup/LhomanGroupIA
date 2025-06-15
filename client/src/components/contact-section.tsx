@@ -219,12 +219,9 @@ export default function ContactSection() {
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
-                            <SelectItem value="machine-learning">Machine Learning</SelectItem>
-                            <SelectItem value="computer-vision">Computer Vision</SelectItem>
-                            <SelectItem value="nlp-chatbot">NLP & Chatbots</SelectItem>
-                            <SelectItem value="data-analytics">Data Analytics</SelectItem>
-                            <SelectItem value="automation">Automatisation IA</SelectItem>
-                            <SelectItem value="audit">Audit IA Éthique</SelectItem>
+                            <SelectItem value="audit-data-ia">Audit Data & IA</SelectItem>
+                            <SelectItem value="applications-ia">Applications IA</SelectItem>
+                            <SelectItem value="modeles-ia">Modèles d'IA</SelectItem>
                             <SelectItem value="other">Autre</SelectItem>
                           </SelectContent>
                         </Select>

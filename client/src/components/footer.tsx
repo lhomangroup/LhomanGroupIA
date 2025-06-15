@@ -9,11 +9,9 @@ export default function Footer() {
   };
 
   const services = [
-    "Machine Learning",
-    "Computer Vision", 
-    "NLP & Chatbots",
-    "Data Analytics",
-    "Automatisation IA"
+    "Audit Data & IA",
+    "Applications IA", 
+    "Modèles d'IA"
   ];
 
   const companyLinks = [
@@ -31,8 +29,8 @@ export default function Footer() {
           <div className="md:col-span-2">
             <h3 className="text-2xl font-bold mb-4">Lhoman Group IA</h3>
             <p className="text-gray-300 mb-6 max-w-md">
-              Transformez votre entreprise avec des solutions d'Intelligence Artificielle sur-mesure. 
-              Expertise technique, approche métier et résultats garantis.
+              Nous développons des solutions d'IA sur mesure en un temps record. 
+              Nos Ingénieurs IA vous accompagnent de la conception au déploiement.
             </p>
             <div className="flex space-x-4">
               <a href="#" className="text-gray-400 hover:text-white transition-colors">

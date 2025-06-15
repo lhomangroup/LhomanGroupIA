@@ -3,52 +3,28 @@ import { Brain, Eye, MessageSquare, BarChart3, Bot, Shield } from "lucide-react"
 
 const services = [
   {
-    icon: Brain,
-    title: "Machine Learning",
-    description: "Développement d'algorithmes d'apprentissage automatique pour l'analyse prédictive et la recommandation.",
-    features: ["Analyse prédictive", "Systèmes de recommandation", "Classification automatique"],
+    icon: Eye,
+    title: "Audit Data & IA",
+    description: "Nos ingénieurs IA analysent vos processus et identifient des opportunités et axes de développement concrets pour intégrer l'intelligence artificielle à vos processus, transformer vos données en leviers stratégiques.",
+    features: ["Analyse des processus existants", "Identification des opportunités IA", "Plan de transformation data-driven"],
     color: "text-blue-600",
     bgColor: "bg-blue-100",
   },
   {
-    icon: Eye,
-    title: "Computer Vision",
-    description: "Solutions de vision par ordinateur pour l'analyse d'images et la reconnaissance automatique.",
-    features: ["Reconnaissance d'objets", "Analyse d'images médicales", "Contrôle qualité automatisé"],
+    icon: Bot,
+    title: "Applications IA",
+    description: "Nous vous accompagnons dans la conception et le développement d'une solution sur mesure qui s'intègre à votre stack technique et répond à vos besoins opérationnels et vos objectifs stratégiques.",
+    features: ["Solutions sur-mesure", "Intégration technique", "Développement rapide"],
     color: "text-green-600",
     bgColor: "bg-green-100",
   },
   {
-    icon: MessageSquare,
-    title: "NLP & Chatbots",
-    description: "Traitement du langage naturel et assistants conversationnels intelligents.",
-    features: ["Chatbots intelligents", "Analyse de sentiment", "Traduction automatique"],
+    icon: Brain,
+    title: "Modèles d'IA",
+    description: "Nos ingénieurs développent des modèles d'IA sur mesure en s'appuyant sur les dernières avancées en Machine et Deep Learning. Nous sélectionnons les modèles les plus performants puis les entraînons sur vos données via des techniques de fine-tuning avancées.",
+    features: ["Machine Learning avancé", "Deep Learning personnalisé", "Fine-tuning sur vos données"],
     color: "text-purple-600",
     bgColor: "bg-purple-100",
-  },
-  {
-    icon: BarChart3,
-    title: "Data Analytics",
-    description: "Analyse avancée de données pour transformer vos informations en insights actionables.",
-    features: ["Tableaux de bord intelligents", "Analyse comportementale", "Optimisation des processus"],
-    color: "text-orange-600",
-    bgColor: "bg-orange-100",
-  },
-  {
-    icon: Bot,
-    title: "Automatisation IA",
-    description: "Automatisation intelligente des processus métier pour une efficacité maximale.",
-    features: ["RPA intelligent", "Automatisation documentaire", "Workflows adaptatifs"],
-    color: "text-red-600",
-    bgColor: "bg-red-100",
-  },
-  {
-    icon: Shield,
-    title: "IA Éthique",
-    description: "Développement d'IA responsable avec transparence, équité et respect de la vie privée.",
-    features: ["Audit algorithme", "Conformité RGPD", "IA explicable"],
-    color: "text-indigo-600",
-    bgColor: "bg-indigo-100",
   },
 ];
 
@@ -63,7 +39,7 @@ export default function ServicesSection() {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
           {services.map((service, index) => {
             const IconComponent = service.icon;
             return (
