@@ -14,10 +14,10 @@ export default function AboutSection() {
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           <div className="animate-fade-in">
             <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-6">
-              Une équipe d'experts au service de vos ambitions
+              Des Ingénieurs IA pour un accompagnement complet
             </h2>
             <p className="text-lg text-gray-600 mb-8 leading-relaxed">
-              Lhoman Group IA réunit des data scientists, ingénieurs IA et consultants métier passionnés par l'innovation. Notre approche combine excellence technique et compréhension business pour livrer des solutions qui transforment réellement votre activité.
+              Nos Ingénieurs IA spécialisés vous accompagnent de bout en bout : de la conception initiale jusqu'au déploiement en production. Nous développons des solutions d'IA sur mesure en un temps record, avec un impact mesurable sur votre activité.
             </p>
             
             <div className="grid sm:grid-cols-2 gap-8 mb-8">

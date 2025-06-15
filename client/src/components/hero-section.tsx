@@ -14,11 +14,11 @@ export default function HeroSection() {
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div className="animate-fade-in">
             <h1 className="text-4xl lg:text-6xl font-bold text-gray-900 leading-tight mb-6">
-              L'Intelligence Artificielle au{" "}
-              <span className="text-primary">Service de Votre Business</span>
+              Solutions d'IA sur-mesure{" "}
+              <span className="text-primary">en temps record</span>
             </h1>
             <p className="text-xl text-gray-600 mb-8 leading-relaxed">
-              Lhoman Group IA accompagne les entreprises dans leur transformation digitale grâce à des solutions d'IA innovantes et sur-mesure.
+              Nos Ingénieurs IA vous accompagnent dans la conception, le développement et le déploiement de modèles et applications d'intelligence artificielle à fort impact.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Button
