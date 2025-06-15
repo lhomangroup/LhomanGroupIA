@@ -1,33 +1,28 @@
 import { contactSubmissions, type ContactSubmission, type InsertContact } from "@shared/schema";
+import { db } from "./db";
+import { eq } from "drizzle-orm";
 
 export interface IStorage {
   createContactSubmission(contact: InsertContact): Promise<ContactSubmission>;
   getContactSubmissions(): Promise<ContactSubmission[]>;
 }
 
-export class MemStorage implements IStorage {
-  private contacts: Map<number, ContactSubmission>;
-  private currentId: number;
-
-  constructor() {
-    this.contacts = new Map();
-    this.currentId = 1;
-  }
-
+export class DatabaseStorage implements IStorage {
   async createContactSubmission(insertContact: InsertContact): Promise<ContactSubmission> {
-    const id = this.currentId++;
-    const contact: ContactSubmission = {
-      ...insertContact,
-      id,
-      createdAt: new Date(),
-    };
-    this.contacts.set(id, contact);
+    const [contact] = await db
+      .insert(contactSubmissions)
+      .values({
+        ...insertContact,
+        company: insertContact.company || null,
+        projectType: insertContact.projectType || null,
+      })
+      .returning();
     return contact;
   }
 
   async getContactSubmissions(): Promise<ContactSubmission[]> {
-    return Array.from(this.contacts.values());
+    return await db.select().from(contactSubmissions);
   }
 }
 
-export const storage = new MemStorage();
+export const storage = new DatabaseStorage();
