@@ -1,6 +1,14 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ChevronDown } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export default function Navigation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -11,6 +19,40 @@ export default function Navigation() {
       element.scrollIntoView({ behavior: "smooth" });
     }
     setIsMenuOpen(false);
+  };
+
+  const expertises = {
+    "Développement sur-mesure": [
+      "Applications mobiles",
+      "Logiciels métier sur-mesure",
+      "Sites e-commerce",
+      "Applications SaaS"
+    ],
+    "Data & IA": [
+      "IA Générative",
+      "Computer Vision",
+      "Systèmes prédictifs",
+      "Data Engineering"
+    ],
+    "Stratégie produit": [
+      "Product Discovery",
+      "UX Research",
+      "UX/UI Design"
+    ],
+    "Conseil & Transformation": [
+      "Cloud & DevOps",
+      "Transformation digitale"
+    ],
+    "Expertises techniques": [
+      "React / React Native",
+      "Node.js / TypeScript",
+      "Angular",
+      "Python",
+      "PHP",
+      "Flutter",
+      ".NET",
+      "Développement mobile natif"
+    ]
   };
 
   return (
@@ -31,6 +73,28 @@ export default function Navigation() {
               >
                 Accueil
               </button>
+              
+              <DropdownMenu>
+                <DropdownMenuTrigger className="text-gray-700 hover:text-primary transition-colors duration-200 px-3 py-2 text-sm font-medium flex items-center gap-1">
+                  Expertises
+                  <ChevronDown className="h-4 w-4" />
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-80 grid grid-cols-2 gap-4 p-4">
+                  {Object.entries(expertises).map(([category, items]) => (
+                    <div key={category} className="space-y-2">
+                      <DropdownMenuLabel className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                        {category}
+                      </DropdownMenuLabel>
+                      {items.map((item) => (
+                        <DropdownMenuItem key={item} className="cursor-pointer text-sm">
+                          {item}
+                        </DropdownMenuItem>
+                      ))}
+                    </div>
+                  ))}
+                </DropdownMenuContent>
+              </DropdownMenu>
+
               <button
                 onClick={() => scrollToSection("services")}
                 className="text-gray-700 hover:text-primary transition-colors duration-200 px-3 py-2 text-sm font-medium"
@@ -80,6 +144,26 @@ export default function Navigation() {
               >
                 Accueil
               </button>
+              
+              {/* Mobile Expertises Menu */}
+              <div className="px-3 py-2">
+                <div className="text-base font-medium text-gray-700 mb-2">Expertises</div>
+                <div className="pl-4 space-y-3">
+                  {Object.entries(expertises).map(([category, items]) => (
+                    <div key={category} className="space-y-1">
+                      <div className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                        {category}
+                      </div>
+                      {items.map((item) => (
+                        <div key={item} className="text-sm text-gray-600 py-1">
+                          {item}
+                        </div>
+                      ))}
+                    </div>
+                  ))}
+                </div>
+              </div>
+              
               <button
                 onClick={() => scrollToSection("services")}
                 className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-primary hover:bg-gray-50 w-full text-left"
