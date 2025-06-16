@@ -72,17 +72,19 @@ export default function Navigation() {
                   Expertises
                   <ChevronDown className="h-4 w-4" />
                 </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-80 grid grid-cols-2 gap-4 p-4">
+                <DropdownMenuContent className="w-[800px] grid grid-cols-4 gap-6 p-6">
                   {Object.entries(expertises).map(([category, items]) => (
-                    <div key={category} className="space-y-2">
-                      <DropdownMenuLabel className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                    <div key={category} className="space-y-3">
+                      <DropdownMenuLabel className="text-xs font-semibold text-gray-500 uppercase tracking-wider border-b border-gray-200 pb-2">
                         {category}
                       </DropdownMenuLabel>
-                      {items.map((item) => (
-                        <DropdownMenuItem key={item} className="cursor-pointer text-sm">
-                          {item}
-                        </DropdownMenuItem>
-                      ))}
+                      <div className="space-y-2">
+                        {items.map((item) => (
+                          <DropdownMenuItem key={item} className="cursor-pointer text-sm hover:bg-gray-50 py-2">
+                            {item}
+                          </DropdownMenuItem>
+                        ))}
+                      </div>
                     </div>
                   ))}
                 </DropdownMenuContent>
