@@ -22,35 +22,28 @@ export default function Navigation() {
   };
 
   const expertises = {
-    "Développement sur-mesure": [
-      "Applications mobiles",
-      "Logiciels métier sur-mesure",
-      "Sites e-commerce",
-      "Applications SaaS"
-    ],
     "Data & IA": [
       "IA Générative",
-      "Computer Vision",
+      "Computer Vision", 
       "Systèmes prédictifs",
       "Data Engineering"
     ],
     "Stratégie produit": [
-      "Product Discovery",
-      "UX Research",
-      "UX/UI Design"
+      "Découverte de produits",
+      "Recherche UX",
+      "Conception UX/UI"
     ],
     "Conseil & Transformation": [
-      "Cloud & DevOps",
-      "Transformation digitale"
+      "Cloud et DevOps",
+      "Transformation numérique"
     ],
     "Expertises techniques": [
       "React / React Native",
-      "Node.js / TypeScript",
+      "Node.js / TypeScript", 
       "Angular",
       "Python",
       "PHP",
       "Flutter",
-      ".NET",
       "Développement mobile natif"
     ]
   };
