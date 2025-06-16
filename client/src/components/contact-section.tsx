@@ -81,18 +81,23 @@ export default function ContactSection() {
   const contactInfo = [
     {
       icon: Phone,
-      title: "+33 1 23 45 67 89",
-      subtitle: "Lun-Ven 9h-18h",
+      title: "(+33) 7 43 16 82 35",
+      subtitle: "Mobile",
+    },
+    {
+      icon: Phone,
+      title: "(+33) 9 74 06 41 23",
+      subtitle: "Fixe",
     },
     {
       icon: Mail,
-      title: "contact@lhoman-group-ia.fr",
+      title: "contact@lhomangroup.fr",
       subtitle: "Réponse sous 24h",
     },
     {
       icon: MapPin,
-      title: "42 Avenue des Champs-Élysées",
-      subtitle: "75008 Paris, France",
+      title: "187 Rue Colbert",
+      subtitle: "92700 Colombes, France",
     },
   ];
 
