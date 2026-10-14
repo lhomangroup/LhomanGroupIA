@@ -5,3 +5,6 @@ server/public
 vite.config.ts.*
 *.tar.gz
 .env
+
+# Base44 sandbox/preview metadata (per-sandbox, not part of the app)
+.base44/
