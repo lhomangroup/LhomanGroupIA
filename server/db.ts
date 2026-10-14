@@ -5,6 +5,19 @@ import * as schema from "@shared/schema";
 
 neonConfig.webSocketConstructor = ws;
 
+// The Neon driver talks to Postgres over a WebSocket tunnel (wss://<db-host>/v2)
+// that only Neon's cloud endpoint serves. When BASE44_PREVIEW_MODE is exactly
+// "1" and NEON_WS_PROXY is set, point it at the plain-WebSocket proxy sitting in
+// front of the local compose Postgres instead (see docker-compose.base44.yml).
+// Any other value leaves the normal Neon cloud behaviour untouched.
+if (process.env.BASE44_PREVIEW_MODE === "1" && process.env.NEON_WS_PROXY) {
+  const wsProxy = process.env.NEON_WS_PROXY;
+  neonConfig.wsProxy = () => `${wsProxy}/v1`;
+  neonConfig.useSecureWebSocket = false;
+  neonConfig.pipelineTLS = false;
+  neonConfig.pipelineConnect = false;
+}
+
 // Check for DATABASE_URL and provide helpful error message
 const databaseUrl = process.env.DATABASE_URL;
 

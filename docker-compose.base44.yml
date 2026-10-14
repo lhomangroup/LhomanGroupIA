@@ -1,0 +1,104 @@
+# Local development environment for this Replit-exported Express + Vite app.
+#
+# Run with:  docker compose -f docker-compose.base44.yml up -d --build
+# The web entry point (API + Vite dev server, one Express process) is on host
+# port 3000; the container listens on 5000 internally as server/index.ts expects.
+#
+# The app talks to Postgres through Neon's serverless driver, which connects over
+# a WebSocket tunnel instead of plain TCP. `wsproxy` is Neon's own WebSocket
+# proxy in front of the local database, and server/db.ts points the driver at it
+# when BASE44_PREVIEW_MODE=1. Outside the sandbox the app connects to Neon
+# directly exactly as before.
+
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: lhoman
+      POSTGRES_PASSWORD: lhoman
+      POSTGRES_DB: lhoman
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U lhoman -d lhoman"]
+      interval: 5s
+      timeout: 3s
+      retries: 12
+      start_period: 10s
+    restart: on-failure
+
+  # WebSocket <-> TCP bridge so the Neon serverless driver can reach local Postgres.
+  wsproxy:
+    image: ghcr.io/neondatabase/wsproxy:latest
+    environment:
+      APPEND_PORT: "db:5432"
+      ALLOW_ADDR_REGEX: ".*"
+      LISTEN_PORT: ":80"
+      LOG_TRAFFIC: "false"
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "bash", "-c", "exec 3<>/dev/tcp/127.0.0.1/80"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+      start_period: 5s
+    restart: on-failure
+
+  # One-shot: creates the tables declared in shared/schema.ts, then exits.
+  db-migrate:
+    image: node:22
+    working_dir: /app
+    volumes:
+      - ./:/app
+      - app_node_modules:/app/node_modules
+    environment:
+      - DATABASE_URL=postgres://lhoman:lhoman@db:5432/lhoman
+    depends_on:
+      db:
+        condition: service_healthy
+    command: ["sh", "-ec", "npm install --no-audit --no-fund && npm run db:push -- --force"]
+    restart: "no"
+
+  app:
+    image: node:22
+    working_dir: /app
+    volumes:
+      - ./:/app
+      - app_node_modules:/app/node_modules
+    ports:
+      - "3000:5000"
+    environment:
+      - NODE_ENV=development
+      - DATABASE_URL=postgres://lhoman:lhoman@db:5432/lhoman
+      - NEON_WS_PROXY=wsproxy:80
+      - BASE44_PREVIEW_MODE
+      # Vite accepts the preview hostname through `allowedHosts: true` in
+      # server/vite.ts; this passthrough keeps newer Vite versions covered too.
+      - __VITE_ADDITIONAL_SERVER_ALLOWED_HOSTS
+    depends_on:
+      db:
+        condition: service_healthy
+      wsproxy:
+        condition: service_healthy
+      db-migrate:
+        condition: service_completed_successfully
+    command: ["sh", "-ec", "npm install --no-audit --no-fund && exec npm run dev"]
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "const urls=[\"http://127.0.0.1:5000/\",\"http://127.0.0.1:5000/api/contact\"];Promise.all(urls.map(u=>fetch(u).then(r=>r.ok).catch(()=>false))).then(oks=>{if(oks.every(Boolean))process.exit(0);console.error(\"unhealthy:\",oks.map((o,i)=>o?null:urls[i]).filter(Boolean).join(\", \"));process.exit(1);})",
+        ]
+      interval: 15s
+      timeout: 5s
+      retries: 6
+      start_period: 120s
+    restart: on-failure
+
+volumes:
+  db_data:
+  app_node_modules:
