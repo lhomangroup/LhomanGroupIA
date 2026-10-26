@@ -59,3 +59,12 @@ Without `NEON_WS_PROXY`/`wsproxy`, `POST /api/contact` would fail with a generic
   `{"success":true}`. Submissions are only visible through that GET endpoint.
 - Compose healthchecks cover all of it: `app` probes both `/` and `/api/contact`
   and reports which one failed.
+
+## Type check / build gate
+
+- `npm run check` (`tsc`) must stay clean; `npm run build` only bundles
+  (`vite build` + `esbuild`) and does not type-check, so run both.
+- `server/db.ts` exports `db`/`pool` as possibly `null` on purpose (the app boots
+  without `DATABASE_URL`). Anything that queries must go through
+  `DatabaseStorage.requireDb()`, which throws a clear error — the API then
+  returns a 500 JSON instead of crashing the process.

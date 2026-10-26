@@ -204,7 +204,7 @@ export default function ContactSection() {
                       <FormItem>
                         <FormLabel>Entreprise</FormLabel>
                         <FormControl>
-                          <Input placeholder="Nom de votre entreprise" {...field} />
+                          <Input placeholder="Nom de votre entreprise" {...field} value={field.value ?? ""} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -217,7 +217,7 @@ export default function ContactSection() {
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Type de projet</FormLabel>
-                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <Select onValueChange={field.onChange} defaultValue={field.value ?? undefined}>
                           <FormControl>
                             <SelectTrigger>
                               <SelectValue placeholder="Sélectionnez un type de projet" />

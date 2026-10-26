@@ -8,8 +8,15 @@ export interface IStorage {
 }
 
 export class DatabaseStorage implements IStorage {
+  private requireDb() {
+    if (!db) {
+      throw new Error("DATABASE_URL is not set; database functionality is disabled.");
+    }
+    return db;
+  }
+
   async createContactSubmission(insertContact: InsertContact): Promise<ContactSubmission> {
-    const [contact] = await db
+    const [contact] = await this.requireDb()
       .insert(contactSubmissions)
       .values({
         ...insertContact,
@@ -21,7 +28,7 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getContactSubmissions(): Promise<ContactSubmission[]> {
-    return await db.select().from(contactSubmissions);
+    return await this.requireDb().select().from(contactSubmissions);
   }
 }
 
