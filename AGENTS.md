@@ -68,3 +68,24 @@ Without `NEON_WS_PROXY`/`wsproxy`, `POST /api/contact` would fail with a generic
   without `DATABASE_URL`). Anything that queries must go through
   `DatabaseStorage.requireDb()`, which throws a clear error — the API then
   returns a 500 JSON instead of crashing the process.
+
+## Deployment (Render / Railway)
+
+One Node process serves the SPA and the API, so a static host (Netlify/Vercel)
+is not enough. `client/public/_redirects` is a leftover from the Netlify-era
+export and is not used by these hosts.
+
+- Build: `npm ci && npm run check && npm run build`; start: `npm start`
+  (`NODE_ENV=production node dist/index.js`, which serves `dist/public`).
+- `PORT`: Render and Railway inject it; `server/index.ts` uses
+  `Number(process.env.PORT) || 5000`. 5000 stays the default for Replit.
+- `DATABASE_URL`: must be a **Neon** connection string
+  (`postgresql://…@…neon.tech/…?sslmode=require`). The serverless driver talks
+  WebSockets to Neon directly; `wsproxy`/`NEON_WS_PROXY` is sandbox-only and
+  gated on `BASE44_PREVIEW_MODE=1`, so production never uses it.
+- Tables: `npm run db:push -- --force` (idempotent) against the production
+  `DATABASE_URL`. `render.yaml` runs it as part of the deploy build.
+- Verify a production build locally without Neon: run
+  `NODE_ENV=production PORT=8080 node dist/index.js` in the app container with
+  `BASE44_PREVIEW_MODE=1` + `NEON_WS_PROXY=wsproxy:80` pointed at the compose
+  Postgres; `/` must serve `assets/index-*.js` and `/api/contact` must answer.

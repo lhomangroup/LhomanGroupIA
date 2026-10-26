@@ -1,0 +1,21 @@
+# Render blueprint: one Node web service (API + built SPA) on a Neon Postgres.
+#
+# 1. Push this branch, then in Render: New > Blueprint > pick this repo.
+# 2. When asked for DATABASE_URL, paste the Neon connection string
+#    (Neon dashboard > Connect > "Connection string", it ends with ?sslmode=require).
+#    The app connects to Neon directly; the local wsproxy is sandbox-only.
+services:
+  - type: web
+    name: lhoman-group-ia
+    runtime: node
+    plan: free
+    # `db:push` creates/updates the contact_submissions table on every deploy
+    # (idempotent), so a fresh Neon database needs no manual migration step.
+    buildCommand: npm ci && npm run check && npm run build && npm run db:push -- --force
+    startCommand: npm start
+    healthCheckPath: /
+    envVars:
+      - key: NODE_VERSION
+        value: 22
+      - key: DATABASE_URL
+        sync: false
